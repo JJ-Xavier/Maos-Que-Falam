@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mãos Que Falam — Triagem</title>
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+  <!-- Barra de acessibilidade, presente em todas as telas -->
+  <header class="barra-topo">
+    <div class="marca">
+      <span class="marca-icone">🤟</span>
+      <span class="marca-nome">Mãos Que Falam</span>
+    </div>
+    <div class="acoes-topo">
+      <button type="button" id="btn-fonte" class="botao-topo" title="Aumentar o tamanho das letras">
+        🔠 Letra maior
+      </button>
+      <button type="button" id="btn-contraste" class="botao-topo" title="Ativar alto contraste">
+        🌓 Contraste
+      </button>
+      <button type="button" id="btn-ler" class="botao-topo" title="Ler a pergunta em voz alta">
+        🔊 Ouvir
+      </button>
+    </div>
+  </header>
+
+  <main id="palco">
+
+    <!-- ============ TELA 1: início ============ -->
+    <section class="tela tela-ativa" id="tela-inicio">
+      <div class="inicio-conteudo">
+        <h1 class="inicio-titulo">Vamos entender o que você precisa</h1>
+        <p class="inicio-texto">
+          Sem precisar falar. Só apontando nas figuras.<br>
+          Leva menos de 2 minutos.
+        </p>
+        <button type="button" class="botao-gigante" id="btn-comecar">
+          <span class="botao-gigante-icone">👆</span>
+          Toque aqui para começar
+        </button>
+        <button type="button" class="botao-emergencia" id="btn-emergencia">
+          🚨 PRECISO DE AJUDA AGORA
+        </button>
+        <button type="button" class="link-equipe" id="btn-abrir-painel">
+          Sou da equipe — abrir painel de atendimento
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ TELA 2: identificação ============ -->
+    <section class="tela" id="tela-identificacao">
+      <div class="pergunta-cabecalho">
+        <h2 class="pergunta-titulo" data-falar>Quem é você?</h2>
+        <p class="pergunta-ajuda">Se não quiser ou não conseguir informar, pode pular.</p>
+      </div>
+
+      <div class="campo-nome">
+        <label for="entrada-nome">Nome (opcional)</label>
+        <input type="text" id="entrada-nome" placeholder="Digite ou deixe em branco" autocomplete="off">
+      </div>
+
+      <p class="rotulo-grupo">Faixa de idade</p>
+      <div class="grade-opcoes grade-3" id="grade-idade"></div>
+
+      <div class="rodape-navegacao">
+        <button type="button" class="botao-voltar" data-voltar>← Voltar</button>
+        <button type="button" class="botao-avancar" id="btn-identificacao-avancar">Continuar →</button>
+      </div>
+    </section>
+
+    <!-- ============ TELAS 3..N: geradas pelo JS ============ -->
+    <section class="tela" id="tela-passo">
+      <div class="progresso">
+        <div class="progresso-barra" id="progresso-barra"></div>
+      </div>
+      <p class="progresso-texto" id="progresso-texto"></p>
+
+      <div class="pergunta-cabecalho">
+        <h2 class="pergunta-titulo" id="passo-titulo" data-falar></h2>
+        <p class="pergunta-ajuda" id="passo-ajuda"></p>
+      </div>
+
+      <div id="passo-corpo"></div>
+
+      <div class="rodape-navegacao">
+        <button type="button" class="botao-voltar" id="btn-passo-voltar">← Voltar</button>
+        <button type="button" class="botao-pular" id="btn-passo-pular">Não sei / pular</button>
+        <button type="button" class="botao-avancar" id="btn-passo-avancar">Continuar →</button>
+      </div>
+    </section>
+
+    <!-- ============ TELA FINAL DO PACIENTE ============ -->
+    <section class="tela" id="tela-obrigado">
+      <div class="inicio-conteudo">
+        <div class="obrigado-icone">✅</div>
+        <h1 class="inicio-titulo">Pronto! A equipe já sabe.</h1>
+        <p class="inicio-texto">
+          Sua senha é <strong class="senha" id="senha-gerada">—</strong><br>
+          Fique por aqui. Vamos te chamar.
+        </p>
+        <div class="cartao-nivel" id="cartao-nivel-paciente"></div>
+        <button type="button" class="botao-gigante" id="btn-nova-triagem">
+          Nova triagem
+        </button>
+        <button type="button" class="link-equipe" id="btn-ver-ficha">Ver a ficha gerada (equipe)</button>
+      </div>
+    </section>
+
+    <!-- ============ PAINEL DA EQUIPE ============ -->
+    <section class="tela" id="tela-painel">
+      <div class="painel-cabecalho">
+        <h2>Painel de atendimento</h2>
+        <div class="painel-acoes">
+          <button type="button" class="botao-secundario" id="btn-limpar-fila">Limpar fila</button>
+          <button type="button" class="botao-avancar" id="btn-painel-sair">Modo paciente</button>
+        </div>
+      </div>
+      <p class="painel-legenda">
+        Fila ordenada por risco. Os dados ficam só neste navegador (protótipo).
+      </p>
+      <div id="fila-pacientes"></div>
+    </section>
+
+    <!-- ============ FICHA DETALHADA ============ -->
+    <section class="tela" id="tela-ficha">
+      <div class="painel-cabecalho">
+        <h2>Ficha de triagem</h2>
+        <div class="painel-acoes">
+          <button type="button" class="botao-secundario" id="btn-imprimir">🖨️ Imprimir</button>
+          <button type="button" class="botao-avancar" id="btn-ficha-voltar">Voltar ao painel</button>
+        </div>
+      </div>
+      <div id="ficha-conteudo"></div>
+    </section>
+
+  </main>
+
+  <script src="js/dados.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
