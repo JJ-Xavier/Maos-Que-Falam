@@ -1,2 +1,113 @@
-1- ajeitar o vh das telas, nao estao responsivas 
-2- 
+Mãos Que Falam: notas de versão
+===============================
+
+
+Versão 1.0.2 (12/11/2026)
+-------------------------
+
+Pedido para esta versão (lista original):
+
+  1- ajeitar o vh das telas, nao estao responsivas
+  2- planejar como conectar o sistema ao celular ou outro dispositivo,
+     a ideia e que quando uma pessoa tenha algum problema imediato o celular
+     vibra na hora e quando o funcionario so quisesse ver a fila tambem era
+     mais facil.
+  3- verificar nescessidade de eletron para o projeto
+  4- alterar qualquer area que peça a versão para 1.0.2
+
+
+1. Altura das telas (vh) e responsividade ............................ FEITO
+
+   O problema, medido antes da correção:
+   - A tela inicial passava da altura da tela em todo formato deitado
+     (notebook 1366x768: 51 px; tablet 4:3: 27 px; tablet 1280x800: 18 px).
+     O link "Sou da equipe" sumia e o botão de ajuda ficava no limite.
+   - No celular deitado (844x390), topo e rodapé ocupavam a tela inteira e
+     nenhuma opção de sintoma aparecia. A página rolava 867 px.
+   - Os tamanhos dependiam só da largura (vw), nunca da altura.
+
+   O que mudou:
+   - O totem ocupa exatamente a altura da tela (100dvh, com 100vh para
+     navegadores antigos). Topo e rodapé ficam presos; só o meio rola,
+     quando precisa. A página em si nunca rola.
+   - Títulos, cartões, ícones e botões usam o menor valor entre a largura e
+     a altura da tela, em vez de só a largura.
+   - Em telas baixas (celular deitado): topo só com ícones, cartões em linha
+     com o ícone ao lado do texto, e tela inicial em duas colunas.
+   - O totem não tem mais "puxar para atualizar", que podia recarregar a
+     página e apagar a triagem no meio.
+   - Rolar uma lista longa conta como uso: o aviso "Você ainda está aí?" não
+     aparece para quem está lendo.
+
+   Resultado, conferido em 7 formatos (notebook 1366x768, tablet 1280x800,
+   tablet 4:3 1024x768, tablet em pé 768x1024, totem em pé 1080x1920,
+   celular deitado 844x390 e celular pequeno 360x640):
+   - A página não rola em nenhum deles.
+   - O botão de ajuda e o rodapé com "Continuar" ficam sempre visíveis.
+   - As 18 opções de sintomas cabem sem rolar no notebook, no tablet
+     deitado e no totem em pé.
+
+   Arquivos: Codigo/css/estilo.css, Codigo/index.html,
+   Codigo/js/interface.js, Codigo/js/paciente.js.
+
+
+2. Conexão com o celular ......................................... PLANEJADO
+
+   Plano completo em Docs/06-dispositivos-e-plataforma.md (Parte 1).
+
+   - Recomendação: o painel da equipe vira um app instalável pela web (PWA),
+     com servidor próprio. O alerta chega como notificação push, que faz o
+     celular vibrar mesmo bloqueado, no Android e no iPhone (iOS 16.4 ou
+     mais novo, com o app adicionado à tela de início).
+   - A vibração direta pela página (navigator.vibrate) só funciona no
+     Android e só com o painel aberto. O iPhone não tem esse recurso.
+   - Três etapas: (1) servidor e fila compartilhada, que já permite ver a
+     fila no celular; (2) app instalável e push; (3) regras contra excesso
+     de alertas: só vermelho e pedido de ajuda, "Estou de plantão",
+     "Vou atender" e escalonamento.
+   - A notificação mostra só senha e local, nunca nome nem sintomas.
+   - Depende de decisões do hospital: onde fica o servidor, certificado
+     HTTPS, celulares da instituição ou pessoais, cobertura de Wi-Fi.
+
+
+3. Necessidade de Electron ................. DECIDIDO: NÃO USAR POR ENQUANTO
+
+   Análise completa em Docs/06-dispositivos-e-plataforma.md (Parte 2).
+
+   - Tudo o que o Electron daria ao totem (tela cheia travada, abrir ao
+     ligar, imprimir a senha sem diálogo) o Chrome ou o Edge em modo
+     quiosque já fazem. O documento traz o comando pronto.
+   - O Electron não roda em tablet Android nem iPad e não ajuda em nada no
+     celular da equipe, que é o próximo passo do projeto.
+   - Reavaliar se o totem precisar de hardware que o navegador não acessa
+     (leitor de cartão do SUS, biometria) ou se a TI exigir um programa
+     instalado. Nesse caso, considerar o Tauri antes.
+
+
+4. Versão 1.0.2 ........................................................ FEITO
+
+   Até aqui o projeto não tinha versão em lugar nenhum. Agora ela é definida
+   num lugar só e aparece onde é útil:
+
+   - Codigo/js/config.js: versao: '1.0.2' (único lugar para mudar).
+   - Tela de acesso da equipe: "Mãos Que Falam, versão 1.0.2".
+   - Rodapé do painel da equipe: "Versão 1.0.2".
+   - Cada triagem gravada guarda a versão que a registrou.
+   - CSV exportado: nova coluna versao_app, para separar os dados de
+     sessões de validação feitas com versões diferentes.
+   - README.md, Docs/README.md e Docs/05-roadmap.md.
+
+   Para a próxima versão, basta mudar a linha em config.js e acrescentar
+   uma seção nova no topo deste arquivo.
+
+
+Como conferir esta versão
+-------------------------
+
+- Testes automáticos da classificação de risco (na raiz do projeto):
+    node --test "Codigo/testes/*.test.js"
+  Resultado: 15 de 15 passando.
+- Fluxo completo do totem e do painel, inatividade, sincronização entre
+  abas e pedido de ajuda: percorridos no navegador, sem erros no console.
+- Para ver a mudança de altura: abra Codigo/index.html e redimensione a
+  janela para baixo. A página não rola e o rodapé não some.

@@ -11,6 +11,12 @@ Triagem por apontamento para pacientes com dificuldade de comunicação.
 | [03 — Catálogo de opções](03-catalogo-de-opcoes.md) | Toda opção de toda tela, com pesos e ícones |
 | [04 — Classificação de risco](04-classificacao-de-risco.md) | Os 5 níveis, a regra, a reclassificação pela equipe e as limitações |
 | [05 — Roadmap](05-roadmap.md) | O que o MVP já tem, próximos passos e decisões em aberto |
+| [06 — Dispositivos e plataforma](06-dispositivos-e-plataforma.md) | Plano para levar alertas e fila ao celular, e por que não usar Electron agora |
+| [Release.txt](Release.txt) | O que entrou em cada versão |
+
+Versão atual: **1.0.2**. Ela é definida num lugar só,
+[config.js](../Codigo/js/config.js), e aparece no acesso da equipe, no rodapé
+do painel e em cada triagem exportada.
 
 ## Como rodar
 

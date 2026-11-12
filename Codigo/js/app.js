@@ -19,6 +19,7 @@ function rotear() {
 }
 
 aplicarIcones(document);
+$$('[data-versao]').forEach((el) => { el.textContent = CONFIG.versao; });
 Acessibilidade.iniciar();
 Inatividade.iniciarEventos();
 Paciente.iniciar();

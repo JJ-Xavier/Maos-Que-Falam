@@ -34,6 +34,8 @@ roteiro de demonstração de 4 minutos.
 - [Catálogo de opções](Docs/03-catalogo-de-opcoes.md)
 - [Classificação de risco](Docs/04-classificacao-de-risco.md)
 - [Roadmap](Docs/05-roadmap.md)
+- [Dispositivos e plataforma](Docs/06-dispositivos-e-plataforma.md) — celular da equipe e Electron
+- [Release.txt](Docs/Release.txt) — o que entrou em cada versão
 
 ## Estrutura do projeto
 
@@ -43,7 +45,8 @@ roteiro de demonstração de 4 minutos.
 
 ## Estado atual
 
-MVP para sessões de validação. Não tem back-end; os dados ficam no navegador.
+Versão **1.0.2**. MVP para sessões de validação. Não tem back-end; os dados
+ficam no navegador.
 A classificação de risco **não foi validada clinicamente** — não deve ser
 usada em atendimento real. As pendências estão no [roadmap](Docs/05-roadmap.md).
 

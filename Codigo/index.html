@@ -82,7 +82,7 @@
     </div>
 
     <!-- ===================== 1. Início ===================== -->
-    <section class="vista vista-inicio" id="vista-inicio">
+    <section class="vista vista-inicio rolagem" id="vista-inicio">
       <div class="inicio">
         <h1 class="inicio-titulo" tabindex="-1" data-falar>Mostre o que você está sentindo.</h1>
         <p class="inicio-texto" data-falar>
@@ -111,7 +111,7 @@
 
     <!-- ===================== 2. Sobre você ===================== -->
     <section class="vista vista-pergunta" id="vista-identificacao" hidden>
-      <div class="pergunta">
+      <div class="pergunta rolagem">
         <div class="progresso" id="progresso-identificacao"></div>
         <h1 class="pergunta-titulo" id="identificacao-titulo" tabindex="-1" data-falar>Qual a sua idade?</h1>
         <p class="pergunta-ajuda" data-falar>Toque em uma opção. Se não quiser responder, pode pular.</p>
@@ -142,7 +142,7 @@
 
     <!-- ===================== 3. Perguntas (montadas pelo JS) ===================== -->
     <section class="vista vista-pergunta" id="vista-passo" hidden>
-      <div class="pergunta">
+      <div class="pergunta rolagem">
         <div class="progresso" id="progresso-passo"></div>
         <h1 class="pergunta-titulo" id="passo-titulo" tabindex="-1" data-falar></h1>
         <p class="pergunta-ajuda" id="passo-ajuda" data-falar></p>
@@ -162,7 +162,7 @@
 
     <!-- ===================== 4. Conferência ===================== -->
     <section class="vista vista-pergunta" id="vista-revisao" hidden>
-      <div class="pergunta">
+      <div class="pergunta rolagem">
         <h1 class="pergunta-titulo" tabindex="-1" data-falar>Confira suas respostas</h1>
         <p class="pergunta-ajuda" data-falar>Se algo estiver errado, toque em "Mudar". Se estiver tudo certo, envie.</p>
         <ul class="revisao-lista" id="revisao-lista"></ul>
@@ -179,7 +179,7 @@
     </section>
 
     <!-- ===================== 5. Pronto ===================== -->
-    <section class="vista vista-final" id="vista-enviado" hidden>
+    <section class="vista vista-final rolagem" id="vista-enviado" hidden>
       <div class="final">
         <span class="final-selo" data-icone="check"></span>
         <h1 tabindex="-1" data-falar>Pronto. A equipe recebeu suas respostas.</h1>
@@ -203,7 +203,7 @@
     </section>
 
     <!-- ===================== Emergência ===================== -->
-    <section class="vista vista-final vista-emergencia" id="vista-emergencia" hidden>
+    <section class="vista vista-final vista-emergencia rolagem" id="vista-emergencia" hidden>
       <div class="final">
         <span class="final-selo final-selo-socorro" data-icone="socorro"></span>
         <h1 tabindex="-1" data-falar>A equipe foi avisada.</h1>
@@ -234,6 +234,7 @@
                aria-describedby="pin-erro pin-dica">
         <p class="erro" id="pin-erro" hidden>PIN incorreto. Confira e tente de novo.</p>
         <p class="dica" id="pin-dica"></p>
+        <p class="dica">Mãos Que Falam, versão <span data-versao></span></p>
         <button type="submit" class="botao botao-primario">Entrar</button>
         <button type="button" class="botao botao-texto" id="btn-pin-voltar">Voltar para o totem</button>
       </form>
@@ -260,7 +261,7 @@
 
       <footer class="ferramentas">
         <h2>Ferramentas do protótipo</h2>
-        <p>Os dados ficam só neste navegador. A exportação não inclui nomes.</p>
+        <p>Versão <span data-versao></span>. Os dados ficam só neste navegador. A exportação não inclui nomes.</p>
         <div class="ferramentas-botoes">
           <button type="button" class="botao botao-secundario" id="btn-exportar" data-icone="baixar"><span>Exportar CSV</span></button>
           <button type="button" class="botao botao-secundario" id="btn-exemplos">Carregar casos de exemplo</button>

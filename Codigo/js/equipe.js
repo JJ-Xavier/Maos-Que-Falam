@@ -546,6 +546,9 @@ const Equipe = (() => {
         ['situacao', (x) => STATUS[x.status] || ''],
         ['local', (x) => x.local || ''],
         ['origem', (x) => x.origem || ''],
+        // Versão do app que gravou a triagem: separa dados de sessões de
+        // validação feitas com versões diferentes.
+        ['versao_app', (x) => x.versao || ''],
       ]);
 
     const celula = (v) => {
@@ -602,6 +605,7 @@ const Equipe = (() => {
         completa: !ex.incompleta,
         local: CONFIG.localTotem,
         origem: 'exemplo',
+        versao: CONFIG.versao,
         nivelEquipe: null,
         motivoEquipe: '',
         status: 'aguardando',

@@ -27,6 +27,11 @@ O objetivo continua sendo validar **o fluxo, o vocabulário e a regra**, não
 construir o produto. Por isso ainda não há back-end, login de verdade nem
 banco de dados.
 
+**Versão 1.0.2.** Telas do totem ajustadas à altura de qualquer tela, versão
+visível no app e no CSV, e o plano para celular e a decisão sobre Electron em
+[Dispositivos e plataforma](06-dispositivos-e-plataforma.md). Detalhes em
+[Release.txt](Release.txt).
+
 ## Próximos passos
 
 ### Fase 2 — Validação com usuários
@@ -71,6 +76,9 @@ exemplo apagados e exporte o CSV no fim de cada dia.
       é só um aviso visual).
 - [ ] Painel de chamada para a sala de espera, com a senha em letra grande —
       paciente surdo não ouve a chamada por voz.
+- [ ] Alertas e fila no celular da equipe: servidor, PWA e notificação push,
+      nas três etapas de [Dispositivos e plataforma](06-dispositivos-e-plataforma.md).
+      O servidor dessa etapa é o mesmo back-end do primeiro item.
 
 ### Fase 5 — Conformidade e integração
 
@@ -97,6 +105,9 @@ exemplo apagados e exporte o CSV no fim de cada dia.
 | O paciente deve ver a cor da prioridade? | **Decidido no MVP:** não. Ver o motivo na [classificação de risco](04-classificacao-de-risco.md#o-paciente-não-vê-a-cor) |
 | A triagem substitui ou complementa a do enfermeiro? | Premissa: complementa. A cor do sistema é sugestão; a equipe confirma ou muda na ficha |
 | Quantos totens por unidade, e com que fila? | Sem definição. Cada totem tem um nome em `config.js`, que aparece no alerta de ajuda |
+| Como o alerta chega ao celular da equipe? | **Planejado na 1.0.2:** PWA com notificação push. Ver [Dispositivos e plataforma](06-dispositivos-e-plataforma.md) |
+| O projeto precisa de Electron? | **Decidido na 1.0.2:** não, por enquanto. O totem roda em navegador no modo quiosque |
+| Os celulares da equipe são da instituição ou pessoais? | Sem definição. Recomendado: da instituição |
 
 ## Limitações do MVP, resumidas
 

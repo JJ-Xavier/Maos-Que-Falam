@@ -33,6 +33,7 @@ const Paciente = (() => {
       completa: false,
       local: CONFIG.localTotem,
       origem: 'totem',
+      versao: CONFIG.versao,
       nivelSistema: 1,
       motivosSistema: [],
       nivelEquipe: null,
@@ -588,7 +589,9 @@ const Inatividade = (() => {
   }
 
   function iniciarEventos() {
-    ['pointerdown', 'keydown', 'input'].forEach((tipo) =>
+    // "scroll" não sobe pela árvore, mas chega à captura no document: quem
+    // está lendo uma lista longa rolando a tela não conta como inativo.
+    ['pointerdown', 'keydown', 'input', 'scroll', 'wheel'].forEach((tipo) =>
       document.addEventListener(tipo, aoTocar, { capture: true, passive: true })
     );
     dialogo().addEventListener('close', () => {

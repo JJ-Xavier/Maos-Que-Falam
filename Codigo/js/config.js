@@ -6,6 +6,10 @@
  */
 
 const CONFIG = {
+  // Versão do app. É o único lugar onde ela é definida: aparece no acesso da
+  // equipe, no rodapé do painel, em cada triagem gravada e no CSV exportado.
+  versao: '1.0.2',
+
   // Nome do lugar onde o totem está. Aparece no painel quando alguém pede ajuda.
   localTotem: 'Recepção principal',
 

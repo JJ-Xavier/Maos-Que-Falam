@@ -206,8 +206,18 @@ nomes), carregar seis casos de exemplo para demonstração e apagar tudo.
 - **"Voltar"** no primeiro passo volta ao início e descarta o que foi
   preenchido (a não ser que o paciente já esteja na fila por ter pedido
   ajuda).
-- O rodapé com Voltar / Pular / Continuar fica fixo embaixo, ao alcance do
-  polegar, mesmo quando a lista de opções rola.
+- **O totem ocupa exatamente a altura da tela.** O topo (com "Ajuda agora")
+  e o rodapé com Voltar / Pular / Continuar ficam presos; só o meio rola,
+  quando precisa. A página em si nunca rola, então o botão de ajuda e o
+  "Continuar" nunca caem abaixo da dobra.
+- Títulos, cartões e botões se ajustam pela largura **e** pela altura da tela.
+  Conferido em notebook (1366×768), tablet deitado (1280×800), tablet 4:3
+  (1024×768), tablet em pé (768×1024), totem em pé (1080×1920) e celulares em
+  pé e deitados. Em tablet deitado e notebook, as 18 opções de sintomas cabem
+  sem rolar.
+- Em telas baixas, como celular deitado, o topo mostra só ícones, os cartões
+  ficam em linha (ícone ao lado do texto) e a tela inicial se divide em duas
+  colunas.
 
 ## Quando ninguém mexe no totem
 

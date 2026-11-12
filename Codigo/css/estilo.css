@@ -244,6 +244,35 @@ main {
 
 @keyframes surgir { from { opacity: 0; } }
 
+/* Totem: o app ocupa exatamente a altura da tela. Topo e rodapé ficam
+   presos e só o meio rola, então o botão de ajuda e o "Continuar" nunca
+   caem abaixo da dobra, em nenhum formato de tela. O painel da equipe
+   continua rolando como página comum. */
+body.modo-paciente {
+  height: 100vh;   /* navegadores sem dvh */
+  height: 100dvh;  /* desconta a barra do navegador no celular */
+  min-height: 0;
+  overflow: hidden;
+  overscroll-behavior: none; /* sem "puxar para atualizar" no totem */
+}
+
+.modo-paciente main { max-width: none; min-height: 0; padding: 0; }
+.modo-paciente .vista { min-height: 0; }
+
+.modo-paciente .rolagem {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+}
+
+/* O conteúdo fica centrado em até 72rem, mas a área que rola (e sua barra)
+   ocupa a largura toda. */
+.modo-paciente .rolagem,
+.modo-paciente .rodape-acoes {
+  padding-left: max(1rem, env(safe-area-inset-left, 0px), calc((100% - 72rem) / 2));
+  padding-right: max(1rem, env(safe-area-inset-right, 0px), calc((100% - 72rem) / 2));
+}
+
 /* ------------------------------------------------------------------ */
 /* Botões                                                              */
 /* ------------------------------------------------------------------ */
@@ -323,20 +352,21 @@ body.alto-contraste .botao-primario:hover { background: #FFF27A; border-color: #
 /* 1. Início                                                           */
 /* ------------------------------------------------------------------ */
 
+/* margin: auto centraliza na vertical sem cortar o topo quando o conteúdo
+   não cabe (justify-content: center cortaria). */
 .inicio {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 2rem;
+  gap: clamp(1rem, 3.5vh, 2rem);
   width: 100%;
   max-width: 54rem;
-  margin: 0 auto;
-  padding: 1.5rem 0 2rem;
+  margin: auto;
+  padding-block: clamp(1rem, 3vh, 1.5rem) clamp(1rem, 4vh, 2rem);
 }
 
+/* Tamanhos pela largura E pela altura: vale o menor dos dois. */
 .inicio-titulo {
-  font-size: clamp(2.6rem, 1.6rem + 4.2vw, 5rem);
+  font-size: clamp(2.2rem, min(1.6rem + 4.2vw, 1rem + 6vh), 5rem);
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.025em;
@@ -344,7 +374,7 @@ body.alto-contraste .botao-primario:hover { background: #FFF27A; border-color: #
 
 .inicio-texto {
   max-width: 36ch;
-  font-size: clamp(1.25rem, 1.05rem + 0.8vw, 1.6rem);
+  font-size: clamp(1.1rem, min(1.05rem + 0.8vw, 0.6rem + 2.4vh), 1.6rem);
   color: var(--tinta-suave);
 }
 
@@ -353,8 +383,8 @@ body.alto-contraste .botao-primario:hover { background: #FFF27A; border-color: #
   align-items: center;
   gap: clamp(1rem, 3vw, 2rem);
   width: 100%;
-  min-height: 11rem;
-  padding: 1.5rem clamp(1.25rem, 4vw, 2.5rem);
+  min-height: clamp(6rem, 22vh, 11rem);
+  padding: clamp(0.75rem, 2.5vh, 1.5rem) clamp(1.25rem, 4vw, 2.5rem);
   border: 4px solid var(--tinta);
   border-radius: 30px;
   background: var(--girassol);
@@ -367,10 +397,10 @@ body.alto-contraste .botao-primario:hover { background: #FFF27A; border-color: #
 .botao-comecar:active { transform: translateY(0.4rem); box-shadow: 0 0.15rem 0 var(--tinta); }
 body.alto-contraste .botao-comecar { color: #000000; }
 
-.botao-comecar-icone { font-size: clamp(3.75rem, 2.5rem + 4vw, 6rem); }
+.botao-comecar-icone { font-size: clamp(3rem, min(2.5rem + 4vw, 9vh), 6rem); }
 .botao-comecar-texto { display: flex; flex-direction: column; gap: 0.2rem; }
 .botao-comecar-principal {
-  font-size: clamp(2.4rem, 1.6rem + 3vw, 3.75rem);
+  font-size: clamp(2rem, min(1.6rem + 3vw, 7vh), 3.75rem);
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.02em;
@@ -421,9 +451,9 @@ body.alto-contraste .botao-comecar { color: #000000; }
 /* Perguntas                                                           */
 /* ------------------------------------------------------------------ */
 
-.pergunta { flex: 1; padding-bottom: 2rem; }
+.pergunta { flex: 1; padding-block: clamp(0.75rem, 2.5vh, 1.5rem) clamp(0.75rem, 2vh, 2rem); }
 
-.progresso { margin-bottom: 1.25rem; }
+.progresso { margin-bottom: clamp(0.5rem, 1.5vh, 1.25rem); }
 
 .progresso-trilha { display: flex; gap: 6px; }
 
@@ -447,14 +477,14 @@ body.alto-contraste .progresso-segmento.atual { background: var(--girassol); }
 }
 
 .pergunta-titulo {
-  font-size: clamp(2rem, 1.4rem + 2.4vw, 3.1rem);
+  font-size: clamp(1.6rem, min(1.4rem + 2.4vw, 0.8rem + 3.6vh), 3.1rem);
   font-weight: 800;
   letter-spacing: -0.02em;
   max-width: 24ch;
 }
 
 .pergunta-ajuda {
-  margin-top: 0.6rem;
+  margin-top: 0.4rem;
   max-width: 48ch;
   font-size: 1.2rem;
   color: var(--tinta-suave);
@@ -462,7 +492,7 @@ body.alto-contraste .progresso-segmento.atual { background: var(--girassol); }
 
 .pergunta-corpo {
   container: corpo / inline-size;
-  margin-top: 1.75rem;
+  margin-top: clamp(0.75rem, 2.5vh, 1.75rem);
 }
 
 .rotulo-grupo {
@@ -476,7 +506,7 @@ body.alto-contraste .progresso-segmento.atual { background: var(--girassol); }
 .grade-opcoes {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
-  gap: 1rem;
+  gap: clamp(0.5rem, 1.6vh, 1rem);
 }
 
 .grade-idade { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 46rem; }
@@ -491,9 +521,9 @@ body.alto-contraste .progresso-segmento.atual { background: var(--girassol); }
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.55rem;
-  min-height: 9rem;
-  padding: 1.1rem 0.75rem 1rem;
+  gap: clamp(0.35rem, 1vh, 0.55rem);
+  min-height: clamp(6.5rem, 16vh, 9rem);
+  padding: clamp(0.6rem, 1.8vh, 1.1rem) 0.75rem;
   border: 2px solid var(--borda);
   border-radius: var(--raio-g);
   background: var(--superficie);
@@ -526,8 +556,8 @@ body.alto-contraste .progresso-segmento.atual { background: var(--girassol); }
   background: var(--selecao-texto) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / 62% no-repeat;
 }
 
-.opcao-icone { font-size: 3.1rem; }
-.opcao-rotulo { font-size: 1.2rem; font-weight: 800; }
+.opcao-icone { font-size: clamp(2.2rem, 5vh, 3.1rem); }
+.opcao-rotulo { font-size: 1.2rem; font-weight: 800; hyphens: auto; }
 .opcao-detalhe { font-size: 1rem; font-weight: 400; color: var(--tinta-suave); }
 .opcao[aria-pressed="true"] .opcao-detalhe { color: var(--selecao-texto); }
 
@@ -571,7 +601,7 @@ body.alto-contraste .progresso-segmento.atual { background: var(--girassol); }
   display: block;
   width: 100%;
   height: auto;
-  max-height: max(20rem, calc(100dvh - 27rem));
+  max-height: max(13rem, calc(100vh - 25rem));
   overflow: visible;
 }
 
@@ -646,8 +676,8 @@ body.alto-contraste .progresso-segmento.atual { background: var(--girassol); }
   .escala { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
-.escala-item { min-height: 11.5rem; padding-bottom: 1.6rem; }
-.escala-item .opcao-icone { font-size: 3.4rem; }
+.escala-item { min-height: clamp(7rem, 20vh, 11.5rem); padding-bottom: 1.6rem; }
+.escala-item .opcao-icone { font-size: clamp(2.4rem, 6vh, 3.4rem); }
 
 /* Faixa de cor na base: do verde ao vermelho. Reforço, não a única pista. */
 .escala-item::before {
@@ -661,17 +691,15 @@ body.alto-contraste .progresso-segmento.atual { background: var(--girassol); }
   background: var(--item-cor);
 }
 
-/* --- Rodapé fixo de navegação: sempre ao alcance do polegar --- */
+/* --- Rodapé de navegação: preso embaixo, ao alcance do polegar --- */
 
 .rodape-acoes {
-  position: sticky;
-  bottom: 0;
-  z-index: 5;
+  flex: none;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 0.75rem;
-  padding: 1rem 0 max(1rem, env(safe-area-inset-bottom));
+  padding: clamp(0.6rem, 1.6vh, 1rem) 0 max(clamp(0.6rem, 1.6vh, 1rem), env(safe-area-inset-bottom));
   border-top: 2px solid var(--tinta);
   background: var(--papel);
 }
@@ -735,20 +763,19 @@ body.alto-contraste .progresso-segmento.atual { background: var(--girassol); }
 /* ------------------------------------------------------------------ */
 
 .final {
-  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 1.25rem;
-  max-width: 44rem;
-  margin: 0 auto;
-  padding: 1.5rem 0 3rem;
+  gap: clamp(0.75rem, 1.6vh, 1.25rem);
+  width: 100%;
+  max-width: 56rem;
+  margin: auto;
+  padding-block: clamp(1rem, 2vh, 1.5rem) clamp(1rem, 3vh, 3rem);
   text-align: center;
 }
 
 .final h1 {
-  font-size: clamp(2.1rem, 1.4rem + 3vw, 3.6rem);
+  font-size: clamp(1.9rem, min(1.4rem + 3vw, 5vh), 3.6rem);
   font-weight: 800;
   letter-spacing: -0.02em;
 }
@@ -756,8 +783,8 @@ body.alto-contraste .progresso-segmento.atual { background: var(--girassol); }
 .final-selo {
   display: grid;
   place-items: center;
-  width: 5.5rem;
-  height: 5.5rem;
+  width: clamp(3.5rem, 8vh, 5.5rem);
+  height: clamp(3.5rem, 8vh, 5.5rem);
   border: 4px solid var(--tinta);
   border-radius: 50%;
   background: var(--girassol);
@@ -770,7 +797,7 @@ body.alto-contraste .final-selo { color: #000000; }
 .final-texto-grande { font-size: clamp(1.4rem, 1.1rem + 1.2vw, 2rem); font-weight: 700; }
 
 .senha-cartao {
-  padding: 1rem 2.5rem 1.25rem;
+  padding: clamp(0.5rem, 1.5vh, 1rem) 2.5rem clamp(0.6rem, 1.8vh, 1.25rem);
   border: 3px solid var(--tinta);
   border-radius: var(--raio-g);
   background: var(--superficie);
@@ -779,7 +806,7 @@ body.alto-contraste .final-selo { color: #000000; }
 .senha-rotulo { font-size: 1.1rem; font-weight: 700; color: var(--tinta-suave); }
 
 .senha {
-  font-size: clamp(3rem, 2rem + 5vw, 5.5rem);
+  font-size: clamp(2.6rem, min(2rem + 5vw, 8vh), 5.5rem);
   font-weight: 800;
   line-height: 1.05;
   letter-spacing: 0.03em;
@@ -799,7 +826,7 @@ body.alto-contraste .final-selo { color: #000000; }
 .final-avisos p { font-weight: 700; }
 .final-avisos .etiquetas { justify-content: center; margin-bottom: 0.25rem; }
 
-.final-piorar { font-size: 1.1rem; max-width: 34ch; }
+.final-piorar { font-size: 1.1rem; max-width: 46ch; }
 
 .final-contagem { font-size: 1rem; color: var(--tinta-suave); }
 
@@ -1279,7 +1306,9 @@ dialog p { margin-bottom: 1.5rem; }
 /* Telas estreitas                                                     */
 /* ------------------------------------------------------------------ */
 
-@media (max-width: 40rem) {
+/* Telas estreitas (celular em pé) ou baixas (celular deitado, janelas
+   pequenas): topo e rodapé compactos, para sobrar tela para as opções. */
+@media (max-width: 40rem), (max-height: 34rem) {
   /* Topo numa linha só: os controles viram ícone (o nome continua para
      leitor de tela). "Ajuda agora" mantém o texto. */
   .topo { flex-wrap: nowrap; gap: 0.4rem; padding-block: 0.5rem; }
@@ -1304,13 +1333,9 @@ dialog p { margin-bottom: 1.5rem; }
   .rodape-acoes .botao { min-height: 3.75rem; padding: 0.5rem 0.9rem; }
   .botao-pular { margin-left: 0; padding-inline: 0.4rem !important; font-size: 1rem; }
   .botao-avancar { min-width: 0; flex: 1; }
+}
 
-  .pergunta-corpo { margin-top: 1.25rem; }
-  .opcao { min-height: 8rem; }
-  .opcao-icone { font-size: 2.6rem; }
-  .escala-item { min-height: 9rem; }
-  .escala-item .opcao-icone { font-size: 2.8rem; }
-
+@media (max-width: 40rem) {
   .grade-idade { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem; }
   .grade-idade .opcao { min-height: 8rem; padding-inline: 0.4rem; }
   .grade-idade .opcao-detalhe { font-size: 0.85rem; }
@@ -1318,6 +1343,56 @@ dialog p { margin-bottom: 1.5rem; }
   .revisao-item { flex-direction: column; align-items: stretch; }
   .respostas { grid-template-columns: minmax(0, 1fr); gap: 0.25rem; }
   .respostas dd { margin-bottom: 0.6rem; }
+}
+
+/* Telas baixas (celular deitado): menos texto de apoio e cartões em linha,
+   com o ícone ao lado do rótulo, para caber mais opções por tela. */
+@media (max-height: 34rem) {
+  .progresso-trilha { display: none; }
+  .progresso { margin-bottom: 0.25rem; }
+  .progresso-texto { margin-top: 0; font-size: 0.9rem; }
+  .pergunta-ajuda { margin-top: 0.25rem; font-size: 1rem; }
+
+  /* Colunas largas o bastante para "Sangramento" não quebrar no meio. */
+  .grade-opcoes:not(.grade-idade) { grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); }
+  .grade-opcoes:not(.grade-idade) > .opcao {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 0.75rem;
+    min-height: 4rem;
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+  }
+  .grade-opcoes:not(.grade-idade) > .opcao .opcao-icone { font-size: 2rem; }
+  .grade-opcoes:not(.grade-idade) > .opcao .opcao-rotulo { font-size: 1.05rem; }
+  .grade-opcoes:not(.grade-idade) > .opcao[aria-pressed="true"]::after {
+    top: 0.3rem;
+    right: 0.3rem;
+    width: 1.35rem;
+    height: 1.35rem;
+  }
+
+  .escala .opcao-rotulo { font-size: 1rem; }
+
+  .rodape-acoes .botao { min-height: 3.25rem; }
+  .botao-socorro { min-height: 3.75rem; font-size: 1.2rem; }
+}
+
+/* Celular deitado na tela inicial: texto à esquerda, botões à direita. */
+@media (max-height: 34rem) and (min-width: 40rem) {
+  .inicio {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+    gap: 0.75rem 2rem;
+    max-width: 64rem;
+  }
+  .inicio-titulo, .inicio-texto { grid-column: 1; }
+  .inicio-titulo { grid-row: 1; }
+  .inicio-texto { grid-row: 2; }
+  .botao-comecar { grid-column: 2; grid-row: 1; min-height: 6rem; }
+  .inicio-socorro { grid-column: 2; grid-row: 2; }
+  .link-equipe { grid-column: 2; grid-row: 3; }
 }
 
 /* ------------------------------------------------------------------ */

@@ -77,7 +77,9 @@ function mostrarVista(id, opcoes) {
   $('#topo-equipe').hidden = !equipe;
   document.title = (titulo ? titulo + ' | ' : '') + 'Mãos Que Falam';
 
+  // No totem quem rola é a área do meio, não a página: volta ela ao topo.
   window.scrollTo(0, 0);
+  $$('#' + id + '.rolagem, #' + id + ' .rolagem').forEach((el) => { el.scrollTop = 0; });
   if (focar) {
     const titulo1 = $('#' + id + ' h1');
     if (titulo1) titulo1.focus({ preventScroll: true });
