@@ -55,18 +55,27 @@ Estas são as regras que guiam cada decisão de interface:
    tela avança sozinha após o toque.
 3. **Cor nunca é a única informação.** Todo elemento colorido também tem ícone
    e texto, por causa de daltonismo e de alto contraste.
-4. **Alvos de toque grandes.** Mínimo de 96px de altura, porque o paciente
-   pode estar com dor, tremendo ou com a destreza reduzida.
+4. **Alvos de toque grandes.** As opções têm no mínimo 128px de altura e os
+   botões de navegação, 60px, porque o paciente pode estar com dor, tremendo
+   ou com a destreza reduzida.
 5. **Conservador no risco.** Na dúvida, a classificação sobe de prioridade.
    Subestimar risco é o erro mais caro numa triagem.
-6. **Saída de emergência sempre visível.** Um botão vermelho na tela inicial
-   registra o paciente como emergência imediatamente, sem nenhuma pergunta.
+6. **Saída de emergência sempre visível.** Um botão vermelho, em todas as
+   telas do paciente, põe a pessoa na fila como emergência na hora, sem
+   nenhuma pergunta.
+7. **O sistema sugere, a equipe decide.** A cor calculada é uma sugestão; o
+   enfermeiro confirma ou muda na ficha, e o paciente não vê a cor antes
+   disso.
+8. **O totem não guarda segredo de ninguém.** Depois de um tempo sem toque,
+   ele volta ao início e apaga a tela, para o próximo paciente não ver os
+   dados de quem saiu.
 
 ## Estado atual
 
-Protótipo navegável em HTML, CSS e JavaScript puro, sem back-end. Serve para
-validar o fluxo, o vocabulário das opções e a lógica de classificação antes de
-escrever a aplicação de verdade.
+MVP em HTML, CSS e JavaScript puro, sem back-end, pronto para sessões de
+validação com equipe e pacientes. Serve para validar o fluxo, o vocabulário
+das opções e a lógica de classificação antes de escrever a aplicação de
+verdade. O que já existe e o que falta está no [roadmap](05-roadmap.md).
 
 Os dados ficam no `localStorage` do navegador. Nada é enviado para nenhum
 servidor.

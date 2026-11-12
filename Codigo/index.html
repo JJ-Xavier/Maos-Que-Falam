@@ -2,143 +2,317 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mãos Que Falam — Triagem</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1A2238">
+  <meta name="description" content="Triagem hospitalar por apontamento para quem não consegue se comunicar com clareza.">
+  <title>Mãos Que Falam</title>
   <link rel="stylesheet" href="css/estilo.css">
 </head>
-<body>
+<body class="modo-paciente">
 
-  <!-- Barra de acessibilidade, presente em todas as telas -->
-  <header class="barra-topo">
-    <div class="marca">
-      <span class="marca-icone">🤟</span>
-      <span class="marca-nome">Mãos Que Falam</span>
+  <!-- ===================== Topo do totem ===================== -->
+  <header class="topo" id="topo-paciente">
+    <div class="logo">
+      <svg class="logo-marca" viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M7 2h18a5 5 0 0 1 5 5v13a5 5 0 0 1-5 5H15l-7 5v-5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5z" fill="currentColor"/>
+        <g fill="#FFC531">
+          <rect x="9" y="8" width="2.8" height="8" rx="1.4"/>
+          <rect x="12.6" y="5.6" width="2.8" height="10" rx="1.4"/>
+          <rect x="16.2" y="5.2" width="2.8" height="10.5" rx="1.4"/>
+          <rect x="19.8" y="6.6" width="2.8" height="9" rx="1.4"/>
+          <rect x="9" y="12.5" width="13.6" height="8.6" rx="3.8"/>
+        </g>
+      </svg>
+      <span class="logo-nome">Mãos Que Falam</span>
     </div>
-    <div class="acoes-topo">
-      <button type="button" id="btn-fonte" class="botao-topo" title="Aumentar o tamanho das letras">
-        🔠 Letra maior
+    <div class="topo-acoes">
+      <button type="button" class="botao-topo" id="btn-fonte" data-icone="letra">
+        <span class="rotulo-topo">Letra maior</span><span class="visually-hidden" id="fonte-atual"></span>
+        <span class="pontos" aria-hidden="true"><i></i><i></i><i></i></span>
       </button>
-      <button type="button" id="btn-contraste" class="botao-topo" title="Ativar alto contraste">
-        🌓 Contraste
+      <button type="button" class="botao-topo" id="btn-contraste" aria-pressed="false" data-icone="contraste">
+        <span class="rotulo-topo">Contraste</span>
       </button>
-      <button type="button" id="btn-ler" class="botao-topo" title="Ler a pergunta em voz alta">
-        🔊 Ouvir
+      <button type="button" class="botao-topo" id="btn-ouvir" aria-pressed="false" data-icone="ouvir">
+        <span class="rotulo-topo">Ouvir</span>
+      </button>
+      <button type="button" class="botao-topo botao-topo-socorro" id="btn-ajuda-topo" data-icone="socorro">
+        <span>Ajuda agora</span>
       </button>
     </div>
   </header>
 
-  <main id="palco">
+  <!-- ===================== Topo da equipe ===================== -->
+  <header class="topo topo-equipe" id="topo-equipe" hidden>
+    <div class="logo">
+      <svg class="logo-marca" viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M7 2h18a5 5 0 0 1 5 5v13a5 5 0 0 1-5 5H15l-7 5v-5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5z" fill="currentColor"/>
+        <g fill="#FFC531">
+          <rect x="9" y="8" width="2.8" height="8" rx="1.4"/>
+          <rect x="12.6" y="5.6" width="2.8" height="10" rx="1.4"/>
+          <rect x="16.2" y="5.2" width="2.8" height="10.5" rx="1.4"/>
+          <rect x="19.8" y="6.6" width="2.8" height="9" rx="1.4"/>
+          <rect x="9" y="12.5" width="13.6" height="8.6" rx="3.8"/>
+        </g>
+      </svg>
+      <span class="logo-nome">Mãos Que Falam</span>
+      <span class="logo-area">Equipe</span>
+    </div>
+    <div class="topo-acoes topo-acoes-equipe">
+      <button type="button" class="botao-topo" id="btn-som" aria-pressed="true" data-icone="ouvir">
+        <span class="rotulo-topo">Som de alerta</span>
+      </button>
+      <button type="button" class="botao-topo" id="btn-modo-totem" data-icone="telaCheia">
+        <span class="rotulo-topo">Totem em tela cheia</span>
+      </button>
+      <button type="button" class="botao-topo" id="btn-sair-equipe" data-icone="sair">
+        <span class="rotulo-topo">Sair</span>
+      </button>
+    </div>
+  </header>
 
-    <!-- ============ TELA 1: início ============ -->
-    <section class="tela tela-ativa" id="tela-inicio">
-      <div class="inicio-conteudo">
-        <h1 class="inicio-titulo">Vamos entender o que você precisa</h1>
-        <p class="inicio-texto">
-          Sem precisar falar. Só apontando nas figuras.<br>
-          Leva menos de 2 minutos.
+  <main id="conteudo">
+
+    <!-- Aviso de caso vermelho novo (só no modo equipe) -->
+    <div class="alerta-nova" id="alerta-emergencia" role="alert" hidden>
+      <span class="alerta-nova-icone" data-icone="alerta"></span>
+      <p id="alerta-emergencia-texto"></p>
+      <a class="botao botao-claro" id="alerta-emergencia-link" href="#/equipe">Abrir ficha</a>
+      <button type="button" class="botao botao-texto-claro" id="alerta-emergencia-fechar">Dispensar</button>
+    </div>
+
+    <!-- ===================== 1. Início ===================== -->
+    <section class="vista vista-inicio" id="vista-inicio">
+      <div class="inicio">
+        <h1 class="inicio-titulo" tabindex="-1" data-falar>Mostre o que você está sentindo.</h1>
+        <p class="inicio-texto" data-falar>
+          Não precisa falar nem escrever. Toque nas figuras e a equipe recebe
+          suas respostas. Leva uns 2 minutos.
         </p>
-        <button type="button" class="botao-gigante" id="btn-comecar">
-          <span class="botao-gigante-icone">👆</span>
-          Toque aqui para começar
+
+        <button type="button" class="botao-comecar" id="btn-comecar">
+          <span class="botao-comecar-icone emoji" aria-hidden="true">👆</span>
+          <span class="botao-comecar-texto">
+            <span class="botao-comecar-principal">Começar</span>
+            <span class="botao-comecar-apoio">Toque aqui</span>
+          </span>
         </button>
-        <button type="button" class="botao-emergencia" id="btn-emergencia">
-          🚨 PRECISO DE AJUDA AGORA
-        </button>
-        <button type="button" class="link-equipe" id="btn-abrir-painel">
-          Sou da equipe — abrir painel de atendimento
-        </button>
+
+        <div class="inicio-socorro">
+          <button type="button" class="botao-socorro" id="btn-socorro" data-icone="socorro">
+            <span>Preciso de ajuda agora</span>
+          </button>
+          <p data-falar>Se não consegue responder, toque no botão vermelho. Alguém da equipe vem até você.</p>
+        </div>
+
+        <button type="button" class="link-equipe" id="btn-abrir-equipe">Sou da equipe</button>
       </div>
     </section>
 
-    <!-- ============ TELA 2: identificação ============ -->
-    <section class="tela" id="tela-identificacao">
-      <div class="pergunta-cabecalho">
-        <h2 class="pergunta-titulo" data-falar>Quem é você?</h2>
-        <p class="pergunta-ajuda">Se não quiser ou não conseguir informar, pode pular.</p>
-      </div>
+    <!-- ===================== 2. Sobre você ===================== -->
+    <section class="vista vista-pergunta" id="vista-identificacao" hidden>
+      <div class="pergunta">
+        <div class="progresso" id="progresso-identificacao"></div>
+        <h1 class="pergunta-titulo" id="identificacao-titulo" tabindex="-1" data-falar>Qual a sua idade?</h1>
+        <p class="pergunta-ajuda" data-falar>Toque em uma opção. Se não quiser responder, pode pular.</p>
 
-      <div class="campo-nome">
-        <label for="entrada-nome">Nome (opcional)</label>
-        <input type="text" id="entrada-nome" placeholder="Digite ou deixe em branco" autocomplete="off">
-      </div>
+        <div class="pergunta-corpo">
+          <div class="grade-opcoes grade-idade" id="grade-idade" role="group" aria-labelledby="identificacao-titulo"></div>
 
-      <p class="rotulo-grupo">Faixa de idade</p>
-      <div class="grade-opcoes grade-3" id="grade-idade"></div>
-
-      <div class="rodape-navegacao">
-        <button type="button" class="botao-voltar" data-voltar>← Voltar</button>
-        <button type="button" class="botao-avancar" id="btn-identificacao-avancar">Continuar →</button>
-      </div>
-    </section>
-
-    <!-- ============ TELAS 3..N: geradas pelo JS ============ -->
-    <section class="tela" id="tela-passo">
-      <div class="progresso">
-        <div class="progresso-barra" id="progresso-barra"></div>
-      </div>
-      <p class="progresso-texto" id="progresso-texto"></p>
-
-      <div class="pergunta-cabecalho">
-        <h2 class="pergunta-titulo" id="passo-titulo" data-falar></h2>
-        <p class="pergunta-ajuda" id="passo-ajuda"></p>
-      </div>
-
-      <div id="passo-corpo"></div>
-
-      <div class="rodape-navegacao">
-        <button type="button" class="botao-voltar" id="btn-passo-voltar">← Voltar</button>
-        <button type="button" class="botao-pular" id="btn-passo-pular">Não sei / pular</button>
-        <button type="button" class="botao-avancar" id="btn-passo-avancar">Continuar →</button>
-      </div>
-    </section>
-
-    <!-- ============ TELA FINAL DO PACIENTE ============ -->
-    <section class="tela" id="tela-obrigado">
-      <div class="inicio-conteudo">
-        <div class="obrigado-icone">✅</div>
-        <h1 class="inicio-titulo">Pronto! A equipe já sabe.</h1>
-        <p class="inicio-texto">
-          Sua senha é <strong class="senha" id="senha-gerada">—</strong><br>
-          Fique por aqui. Vamos te chamar.
-        </p>
-        <div class="cartao-nivel" id="cartao-nivel-paciente"></div>
-        <button type="button" class="botao-gigante" id="btn-nova-triagem">
-          Nova triagem
-        </button>
-        <button type="button" class="link-equipe" id="btn-ver-ficha">Ver a ficha gerada (equipe)</button>
-      </div>
-    </section>
-
-    <!-- ============ PAINEL DA EQUIPE ============ -->
-    <section class="tela" id="tela-painel">
-      <div class="painel-cabecalho">
-        <h2>Painel de atendimento</h2>
-        <div class="painel-acoes">
-          <button type="button" class="botao-secundario" id="btn-limpar-fila">Limpar fila</button>
-          <button type="button" class="botao-avancar" id="btn-painel-sair">Modo paciente</button>
+          <div class="campo-nome">
+            <label for="entrada-nome">Seu nome <span class="opcional">(se quiser)</span></label>
+            <!-- autocomplete desligado de propósito: num totem compartilhado,
+                 o preenchimento automático mostraria o nome de outra pessoa. -->
+            <input type="text" id="entrada-nome" autocomplete="off" autocapitalize="words"
+                   spellcheck="false" enterkeyhint="done" maxlength="80">
+          </div>
         </div>
       </div>
-      <p class="painel-legenda">
-        Fila ordenada por risco. Os dados ficam só neste navegador (protótipo).
-      </p>
-      <div id="fila-pacientes"></div>
+
+      <nav class="rodape-acoes" aria-label="Navegação">
+        <button type="button" class="botao botao-secundario" id="btn-identificacao-voltar" data-icone="voltar">
+          <span class="rotulo-voltar">Voltar</span>
+        </button>
+        <button type="button" class="botao botao-texto botao-pular" id="btn-identificacao-pular">Pular</button>
+        <button type="button" class="botao botao-primario botao-avancar" id="btn-identificacao-avancar" data-icone-fim="avancar">
+          <span class="rotulo-botao">Continuar</span>
+        </button>
+      </nav>
     </section>
 
-    <!-- ============ FICHA DETALHADA ============ -->
-    <section class="tela" id="tela-ficha">
-      <div class="painel-cabecalho">
-        <h2>Ficha de triagem</h2>
-        <div class="painel-acoes">
-          <button type="button" class="botao-secundario" id="btn-imprimir">🖨️ Imprimir</button>
-          <button type="button" class="botao-avancar" id="btn-ficha-voltar">Voltar ao painel</button>
-        </div>
+    <!-- ===================== 3. Perguntas (montadas pelo JS) ===================== -->
+    <section class="vista vista-pergunta" id="vista-passo" hidden>
+      <div class="pergunta">
+        <div class="progresso" id="progresso-passo"></div>
+        <h1 class="pergunta-titulo" id="passo-titulo" tabindex="-1" data-falar></h1>
+        <p class="pergunta-ajuda" id="passo-ajuda" data-falar></p>
+        <div class="pergunta-corpo" id="passo-corpo"></div>
       </div>
-      <div id="ficha-conteudo"></div>
+
+      <nav class="rodape-acoes" aria-label="Navegação">
+        <button type="button" class="botao botao-secundario" id="btn-passo-voltar" data-icone="voltar">
+          <span class="rotulo-voltar">Voltar</span>
+        </button>
+        <button type="button" class="botao botao-texto botao-pular" id="btn-passo-pular">Não sei, pular</button>
+        <button type="button" class="botao botao-primario botao-avancar" id="btn-passo-avancar" data-icone-fim="avancar">
+          <span class="rotulo-botao">Continuar</span>
+        </button>
+      </nav>
+    </section>
+
+    <!-- ===================== 4. Conferência ===================== -->
+    <section class="vista vista-pergunta" id="vista-revisao" hidden>
+      <div class="pergunta">
+        <h1 class="pergunta-titulo" tabindex="-1" data-falar>Confira suas respostas</h1>
+        <p class="pergunta-ajuda" data-falar>Se algo estiver errado, toque em "Mudar". Se estiver tudo certo, envie.</p>
+        <ul class="revisao-lista" id="revisao-lista"></ul>
+      </div>
+
+      <nav class="rodape-acoes" aria-label="Navegação">
+        <button type="button" class="botao botao-secundario" id="btn-revisao-voltar" data-icone="voltar">
+          <span class="rotulo-voltar">Voltar</span>
+        </button>
+        <button type="button" class="botao botao-primario botao-avancar botao-enviar" id="btn-enviar" data-icone="check">
+          <span>Enviar para a equipe</span>
+        </button>
+      </nav>
+    </section>
+
+    <!-- ===================== 5. Pronto ===================== -->
+    <section class="vista vista-final" id="vista-enviado" hidden>
+      <div class="final">
+        <span class="final-selo" data-icone="check"></span>
+        <h1 tabindex="-1" data-falar>Pronto. A equipe recebeu suas respostas.</h1>
+
+        <div class="senha-cartao">
+          <p class="senha-rotulo">Sua senha</p>
+          <p class="senha" id="enviado-senha" data-falar></p>
+        </div>
+        <p class="final-texto" data-falar>Fique por perto. Vamos chamar por este número.</p>
+
+        <div class="final-avisos" id="enviado-avisos"></div>
+
+        <p class="final-texto final-piorar">
+          Se piorar enquanto espera, toque em <strong>Ajuda agora</strong>, no alto da tela,
+          ou procure alguém da equipe.
+        </p>
+
+        <button type="button" class="botao botao-primario botao-largo" id="btn-terminar">Terminar</button>
+        <p class="final-contagem" id="enviado-contagem"></p>
+      </div>
+    </section>
+
+    <!-- ===================== Emergência ===================== -->
+    <section class="vista vista-final vista-emergencia" id="vista-emergencia" hidden>
+      <div class="final">
+        <span class="final-selo final-selo-socorro" data-icone="socorro"></span>
+        <h1 tabindex="-1" data-falar>A equipe foi avisada.</h1>
+        <p class="final-texto final-texto-grande" data-falar>Fique onde está. Alguém vem até você agora.</p>
+
+        <div class="senha-cartao">
+          <p class="senha-rotulo">Sua senha</p>
+          <p class="senha" id="emergencia-senha"></p>
+        </div>
+
+        <div class="final-botoes">
+          <button type="button" class="botao botao-claro botao-largo" id="btn-emergencia-continuar">
+            <span class="rotulo-botao">Se conseguir, responda algumas perguntas</span>
+          </button>
+          <button type="button" class="botao botao-texto-claro" id="btn-emergencia-inicio">Voltar ao início</button>
+        </div>
+        <p class="final-contagem" id="emergencia-contagem"></p>
+      </div>
+    </section>
+
+    <!-- ===================== Equipe: PIN ===================== -->
+    <section class="vista vista-pin" id="vista-pin" hidden>
+      <form class="pin" id="form-pin" novalidate>
+        <h1 tabindex="-1">Acesso da equipe</h1>
+        <p>Digite o PIN para abrir a fila de atendimento.</p>
+        <label for="entrada-pin">PIN</label>
+        <input type="password" id="entrada-pin" inputmode="numeric" autocomplete="off"
+               aria-describedby="pin-erro pin-dica">
+        <p class="erro" id="pin-erro" hidden>PIN incorreto. Confira e tente de novo.</p>
+        <p class="dica" id="pin-dica"></p>
+        <button type="submit" class="botao botao-primario">Entrar</button>
+        <button type="button" class="botao botao-texto" id="btn-pin-voltar">Voltar para o totem</button>
+      </form>
+    </section>
+
+    <!-- ===================== Equipe: fila ===================== -->
+    <section class="vista vista-painel" id="vista-painel" hidden>
+      <div class="painel-cabeca">
+        <h1 tabindex="-1">Fila de atendimento</h1>
+        <p class="painel-atualizado" id="painel-atualizado"></p>
+      </div>
+
+      <div class="painel-controles">
+        <div class="filtros" id="filtros" role="group" aria-label="Mostrar pacientes">
+          <button type="button" data-filtro="espera" aria-pressed="true">Aguardando <span class="contagem">0</span></button>
+          <button type="button" data-filtro="atendimento" aria-pressed="false">Em atendimento <span class="contagem">0</span></button>
+          <button type="button" data-filtro="finalizado" aria-pressed="false">Finalizados <span class="contagem">0</span></button>
+        </div>
+        <ul class="resumo-niveis" id="resumo-niveis" aria-label="Aguardando, por prioridade"></ul>
+      </div>
+
+      <ol class="fila" id="fila"></ol>
+      <p class="fila-vazia" id="fila-vazia" hidden></p>
+
+      <footer class="ferramentas">
+        <h2>Ferramentas do protótipo</h2>
+        <p>Os dados ficam só neste navegador. A exportação não inclui nomes.</p>
+        <div class="ferramentas-botoes">
+          <button type="button" class="botao botao-secundario" id="btn-exportar" data-icone="baixar"><span>Exportar CSV</span></button>
+          <button type="button" class="botao botao-secundario" id="btn-exemplos">Carregar casos de exemplo</button>
+          <button type="button" class="botao botao-texto botao-texto-perigo" id="btn-apagar">Apagar todas as triagens</button>
+        </div>
+      </footer>
+    </section>
+
+    <!-- ===================== Equipe: ficha ===================== -->
+    <section class="vista vista-ficha" id="vista-ficha" hidden>
+      <div class="ficha-barra nao-imprimir">
+        <a class="botao botao-secundario" href="#/equipe" data-icone="voltar"><span>Voltar para a fila</span></a>
+        <p class="ficha-status" id="ficha-status" role="status"></p>
+        <button type="button" class="botao botao-secundario" id="btn-imprimir" data-icone="imprimir"><span>Imprimir</span></button>
+      </div>
+      <div id="ficha"></div>
     </section>
 
   </main>
 
+  <!-- ===================== Diálogos ===================== -->
+  <dialog id="dialogo-inatividade" aria-labelledby="inatividade-titulo" aria-describedby="inatividade-texto">
+    <form method="dialog">
+      <h2 id="inatividade-titulo">Você ainda está aí?</h2>
+      <p id="inatividade-texto">
+        Se ninguém tocar na tela, guardamos o que já foi respondido e voltamos
+        ao início em <strong id="inatividade-segundos">20</strong> segundos.
+      </p>
+      <button type="submit" value="continuar" class="botao botao-primario botao-largo" autofocus>
+        Continuar respondendo
+      </button>
+    </form>
+  </dialog>
+
+  <dialog id="dialogo-confirmar" aria-labelledby="confirmar-titulo" aria-describedby="confirmar-texto">
+    <form method="dialog">
+      <h2 id="confirmar-titulo"></h2>
+      <p id="confirmar-texto"></p>
+      <div class="dialogo-acoes">
+        <button type="submit" value="cancelar" class="botao botao-secundario" autofocus>Cancelar</button>
+        <button type="submit" value="ok" class="botao botao-primario" id="confirmar-ok">Confirmar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="js/config.js"></script>
   <script src="js/dados.js"></script>
+  <script src="js/regras.js"></script>
+  <script src="js/armazenamento.js"></script>
+  <script src="js/interface.js"></script>
+  <script src="js/paciente.js"></script>
+  <script src="js/equipe.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

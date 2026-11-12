@@ -7,22 +7,24 @@ de risco que aquela opção atribui (ver [classificação](04-classificacao-de-r
 
 ## Faixa etária
 
-| Ícone | Opção | Nível |
-|---|---|---|
-| 🧒 | Criança | — |
-| 🧑 | Adulto | — |
-| 🧓 | Idoso | 3 |
+| Ícone | Opção | Detalhe | Nível |
+|---|---|---|---|
+| 🧒 | Criança | Até 12 anos | — |
+| 🧑 | Adulto | 13 a 59 anos | — |
+| 🧓 | Idoso | 60 anos ou mais | 3 |
 
 ## Como você prefere se comunicar? (escolha única)
 
-| Ícone | Opção | Alerta gerado na ficha |
-|---|---|---|
-| 👆 | Aponto nas figuras | — |
-| 🤟 | Uso Libras | Chamar intérprete de Libras |
-| ✍️ | Prefiro escrever | — |
-| 🧑‍🤝‍🧑 | Tenho acompanhante | — |
-| 🗣️ | Falo, mas com dificuldade | — |
-| 🤐 | Não consigo falar | Paciente não verbal |
+| Ícone | Opção | Alerta no painel | Orientação na ficha |
+|---|---|---|---|
+| 👆 | Aponto nas figuras | — | Use figuras e perguntas de sim ou não |
+| 🤟 | Uso Libras | Chamar intérprete de Libras | Chame um intérprete antes de começar |
+| ✍️ | Prefiro escrever | — | Ofereça papel e caneta |
+| 🧑‍🤝‍🧑 | Tenho acompanhante | — | Confirme as respostas com o paciente |
+| 🗣️ | Falo, mas com dificuldade | — | Dê tempo para responder e repita o que entendeu |
+| 🤐 | Não consigo falar | Paciente não verbal | Use perguntas de sim ou não e figuras |
+
+A resposta aparece sempre no topo da ficha, em "Como se comunicar".
 
 ## Onde está o problema? (múltipla)
 
@@ -40,7 +42,8 @@ Regiões do boneco clicável:
 | Perna direita | — |
 
 Regiões oferecidas como botões extras: 👁️ Olhos · 👂 Ouvido · 🦷 Boca/dente ·
-🔄 Costas · 🩹 Pele · 🚻 Região íntima · 🧍 O corpo todo · ❓ Não sei dizer.
+🔄 Costas · 🩹 Pele · 🚻 Região íntima · 🧍 O corpo todo · ❓ Não sei dizer
+(exclusiva).
 
 ## O que você está sentindo? (múltipla)
 
@@ -94,7 +97,7 @@ intensidade, na tela seguinte.
 | Ícone | Opção | Nível | Alerta |
 |---|---|---|---|
 | 💊 | Tomo medicamento | — | — |
-| ⚠️ | Tenho alergia | — | Paciente relata alergia |
+| ⚠️ | Tenho alergia | — | Relata alergia |
 | 🩸 | Diabetes | — | — |
 | 📈 | Pressão alta | — | — |
 | ❤️ | Problema no coração | 3 | — |
@@ -116,8 +119,9 @@ intensidade, na tela seguinte.
 | 😨 | Estou com medo |
 | 👌 | Não preciso de nada *(exclusiva)* |
 
-Nenhuma dessas opções altera a classificação de risco. Elas existem para a
-equipe resolver o desconforto durante a espera.
+Nenhuma dessas opções altera a classificação de risco. Elas aparecem no
+cartão da fila, para a equipe resolver o desconforto durante a espera, e o
+paciente vê na tela final que a equipe recebeu o pedido.
 
 ## Sobre os ícones
 
@@ -137,14 +141,27 @@ acrescente um objeto ao `opcoes`:
 
 ```js
 {
-  id: 'identificador-unico',   // obrigatório, sem espaços
+  id: 'identificador-unico',   // obrigatório, sem espaços, único no passo
   rotulo: 'Texto que aparece',  // obrigatório
   icone: '🩺',                  // opcional
+  detalhe: 'Texto menor',       // opcional — linha abaixo do rótulo
   nivel: 4,                     // opcional — nível de risco de 1 a 5
-  alerta: 'Texto do alerta',    // opcional — aparece em destaque na ficha
+  motivo: 'Texto do motivo',    // opcional — como aparece em "o sistema considerou"
+  alerta: 'Texto do alerta',    // opcional — destaque no cartão da fila e na ficha
+  orientacao: 'Como abordar',   // opcional — só na pergunta de comunicação
   exclusiva: true,              // opcional — limpa as demais quando marcada
 }
 ```
 
-Nenhuma outra alteração é necessária: a tela, a ficha e a classificação de
-risco passam a considerar a opção nova automaticamente.
+Nenhuma outra alteração é necessária: a tela, a conferência, a ficha, a
+exportação e a classificação de risco passam a considerar a opção nova
+automaticamente.
+
+Depois de mexer no catálogo, rode os testes:
+
+```
+node --test "Codigo/testes/*.test.js"
+```
+
+Um deles confere se não há id repetido e se todo nível está entre 1 e 5.
+Ids removidos do catálogo são ignorados nas fichas antigas, sem quebrar nada.

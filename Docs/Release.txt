@@ -1,0 +1,2 @@
+1- ajeitar o vh das telas, nao estao responsivas 
+2- 
